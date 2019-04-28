@@ -1,0 +1,316 @@
+
+-------------------- -------------------- -------------------- -------------------- --------------------
+
+Problem Statement:
+
+-------------------- -------------------- -------------------- -------------------- --------------------
+
+
+Expose the sample dataset through RESTful API which is capable of filtering, grouping and sorting. Dataset represents performance metrics (impressions, clicks, installs, spend, revenue) for a given date, advertising channel, country and operating system. It is expected to be stored and processed in a relational database of your choice.
+
+Sample dataset: https://gist.github.com/kusaku/01085f0ad72d2c74aff4577322b139a4
+
+Client of this API should be able to:
+
+filter by time range (date_from / date_to is enough), channels, countries, operating systems
+group by one or more columns: date, channel, country, operating system
+sort by any column in ascending or descending order
+Please make sure that the client can use filtering, grouping, sorting at the same time.
+
+Common API use cases:
+
+Show the number of impressions and clicks that occurred before the 1st of June 2017, broken down by channel and country, sorted by clicks in descending order. Hint:
+=> select channel, country, sum(impressions) as impressions, sum(clicks) as clicks from sampledataset where date <= '2017-06-01' group by channel, country order by clicks desc;
+     channel      | country | impressions | clicks 
+------------------+---------+-------------+--------
+ adcolony         | US      |      532608 |  13089
+ apple_search_ads | US      |      369993 |  11457
+ vungle           | GB      |      266470 |   9430
+ vungle           | US      |      266976 |   7937
+ ...
+Show the number of installs that occurred in April of 2017 on iOS, broken down by date, sorted by date in ascending order.
+Show money, earned on June 1, 2017 in US, broken down by operating system and sorted by revenue in descending order.
+As a bonus track, add CPI (cost per install) metric that is calculated as cpi = spend / installs. Use case: show CPI values for Canada (CA) broken down by channel ordered by CPI in descending order. Please think creafully which is an appropriate aggregate function for CPI.
+
+
+-------------------------------------------------------------------------------------
+
+    *   Outputs of requested multiple asks:
+
+-------------------------------------------------------------------------------------
+
+
+Ask #1 :   *Purpose*
+Show the number of impressions and clicks that occurred before the 1st of June 2017,
+broken down by channel and country, sorted by clicks in descending order.
+
+
+# curl -i https://52.172.139.119/api/?query=date=lte:2017-6-1,values=channel,values=country,Sum=impressions,Sum=clicks,sort_by=-clicks -k
+HTTP/1.1 200 OK
+Server: nginx/1.10.3 (Ubuntu)
+Date: Sun, 28 Apr 2019 11:27:46 GMT
+Content-Type: application/json
+Content-Length: 3829
+Connection: keep-alive
+X-Frame-Options: SAMEORIGIN
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+
+{
+    "count": 25,
+    "items": [
+        {
+            "country": "US",
+            "clicks": 13089,
+            "channel": "adcolony",
+            "impressions": 532608
+        },
+        {
+            "country": "US",
+            "clicks": 11457,
+            "channel": "apple_search_ads",
+            "impressions": 369993
+        },
+        {
+            "country": "GB",
+            "clicks": 9430,
+            "channel": "vungle",
+            "impressions": 266470
+        },
+        {
+            "country": "US",
+            "clicks": 7937,
+            "channel": "vungle",
+            "impressions": 266976
+        },
+        {
+            "country": "US",
+            "clicks": 7374,
+            "channel": "unityads",
+            "impressions": 215125
+        },
+        ...
+        ...
+        {
+            "country": "FR",
+            "clicks": 1551,
+            "channel": "facebook",
+            "impressions": 53164
+        },
+        {
+            "country": "CA",
+            "clicks": 1548,
+            "channel": "facebook",
+            "impressions": 53330
+        },
+        {
+            "country": "CA",
+            "clicks": 1547,
+            "channel": "google",
+            "impressions": 53064
+        },
+        {
+            "country": "DE",
+            "clicks": 503,
+            "channel": "google",
+            "impressions": 50653
+        }
+    ]
+}
+
+-------------------------------------------------------------------------------------
+
+Ask #2 : -> *Purpose*
+
+Show the number of installs that occurred in April of 2017 on iOS,
+broken down by date, sorted by date in ascending order.
+
+
+# curl -i -k https://52.172.139.119/api/?query=year=2017,month=5,os=ios,values=date,Sum=installs,sort_by=date
+HTTP/1.1 200 OK
+Server: nginx/1.10.3 (Ubuntu)
+Date: Sun, 28 Apr 2019 11:26:38 GMT
+Content-Type: application/json
+Content-Length: 1315
+Connection: keep-alive
+X-Frame-Options: SAMEORIGIN
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+
+{
+    "count": 15,
+    "items": [
+        {
+            "date": "2017-05-17",
+            "installs": 755
+        },
+        {
+            "date": "2017-05-18",
+            "installs": 765
+        },
+        {
+            "date": "2017-05-19",
+            "installs": 745
+        },
+        ...
+        ...
+        {
+            "date": "2017-05-28",
+            "installs": 664
+        },
+        {
+            "date": "2017-05-29",
+            "installs": 752
+        },
+        {
+            "date": "2017-05-30",
+            "installs": 762
+        },
+        {
+            "date": "2017-05-31",
+            "installs": 685
+        }
+    ]
+}
+
+-------------------------------------------------------------------------------------
+
+Ask #3: *Purpose*
+
+Show money, earned on June 1, 2017 in US, broken down by operating system,
+sorted by revenue in descending order.
+
+
+# curl -i -k https://52.172.139.119/api/?query=date=2017-6-1,country=US,values=os,Sum=revenue,sort_by=revenue
+HTTP/1.1 200 OK
+Server: nginx/1.10.3 (Ubuntu)
+Date: Sun, 28 Apr 2019 11:25:59 GMT
+Content-Type: application/json
+Content-Length: 200
+Connection: keep-alive
+X-Frame-Options: SAMEORIGIN
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+
+{
+    "count": 2,
+    "items": [
+        {
+            "os": "ios",
+            "revenue": 398.87
+        },
+        {
+            "os": "android",
+            "revenue": 1205.21
+        }
+    ]
+}
+
+
+-------------------------------------------------------------------------------------
+
+
+Bonus track:
+# I've hardcoded all other params at the backend except Country (defaults to CA)
+#
+
+# curl -i -k https://52.172.139.119/cpi/
+HTTP/1.1 200 OK
+Server: nginx/1.10.3 (Ubuntu)
+Date: Sun, 28 Apr 2019 12:02:24 GMT
+Content-Type: application/json
+Content-Length: 567
+Connection: keep-alive
+X-Frame-Options: SAMEORIGIN
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+
+[
+    {
+        "total_spend": 1274.0,
+        "cpi": 2.0,
+        "total_installs": 637.0,
+        "channel": "chartboost"
+    },
+    {
+        "total_spend": 1164.0,
+        "cpi": 2.0748663101604277,
+        "total_installs": 561.0,
+        "channel": "facebook"
+    },
+    {
+        "total_spend": 999.9000000000004,
+        "cpi": 1.7419860627177708,
+        "total_installs": 574.0,
+        "channel": "google"
+    },
+    {
+        "total_spend": 2642.0,
+        "cpi": 2.0,
+        "total_installs": 1321.0,
+        "channel": "unityads"
+    }
+]
+
+
+## Same query with another country:
+
+# curl -i -k https://52.172.139.119/cpi/?query=country=US
+HTTP/1.1 200 OK
+Server: nginx/1.10.3 (Ubuntu)
+Date: Sun, 28 Apr 2019 12:07:58 GMT
+Content-Type: application/json
+Content-Length: 1023
+Connection: keep-alive
+X-Frame-Options: SAMEORIGIN
+Strict-Transport-Security: max-age=31536000; includeSubdomains
+X-Frame-Options: SAMEORIGIN
+
+[
+    {
+        "total_spend": 7370.0999999999985,
+        "cpi": 1.586673842841765,
+        "total_installs": 4645.0,
+        "channel": "adcolony"
+    },
+    {
+        "total_spend": 8224.0,
+        "cpi": 2.0,
+        "total_installs": 4112.0,
+        "channel": "apple_search_ads"
+    },
+    {
+        "total_spend": 3416.0,
+        "cpi": 2.0,
+        "total_installs": 1708.0,
+        "channel": "chartboost"
+    },
+    {
+        "total_spend": 2721.2000000000003,
+        "cpi": 1.9733139956490213,
+        "total_installs": 1379.0,
+        "channel": "facebook"
+    },
+    {
+        "total_spend": 3999.5999999999963,
+        "cpi": 1.721739130434781,
+        "total_installs": 2323.0,
+        "channel": "google"
+    },
+    {
+        "total_spend": 6900.0,
+        "cpi": 2.57847533632287,
+        "total_installs": 2676.0,
+        "channel": "unityads"
+    },
+    {
+        "total_spend": 6214.0,
+        "cpi": 2.0,
+        "total_installs": 3107.0,
+        "channel": "vungle"
+    }
+]
+
+
+-------------------------------------------------------------------------------------
+

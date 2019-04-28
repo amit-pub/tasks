@@ -1,0 +1,49 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
+
+from django.shortcuts import render
+from django.views import View
+from django.http import HttpResponse, JsonResponse
+from . import data_mgr
+import models
+import json
+
+data_manager = data_mgr.DataManager()
+
+# Create your views here.
+def index(request):
+    return HttpResponse("this is INDEX page")
+
+def show(request):
+    return HttpResponse("this is to show data")
+
+def get(request):
+    return HttpResponse("this is to GET data")
+
+def push_data(request):
+    models.read_data()
+    return HttpResponse("Data pushed")
+
+def get_data(request):
+    data = models.CsvRow.objects.values_list()
+    return JsonResponse(list(data), safe=False)
+    #return HttpResponse(json.dumps(list(models.CsvRow.objects.values_list())), content_type='application/json')
+
+
+class ApiHandler(View):
+
+    def post(self, request):
+        return HttpResponse(status=405)
+        print request.POST
+        print request.POST.get("data")
+        print request.POST.get("try")
+        #print kwargs
+        return HttpResponse("returning from POST")
+
+    def get(self, request, **kwargs):
+        query = dict(request.GET.viewitems())
+        print "query:  ", query
+        data = data_manager.get_data(query)
+        import pdb;pdb.set_trace()
+        return JsonResponse(data, safe=False, json_dumps_params={"indent":4})
+        return HttpResponse("...returning from get")

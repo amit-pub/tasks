@@ -1,0 +1,37 @@
+1217  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/
+1237* curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?spend=50,sort
+1238  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50
+1239  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue
+1240  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=-revenue
+1241  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue
+1242  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,country=GB
+1243  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,country=GB,impressions=3499
+1244  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=impressions=3499
+1245  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,country=GB
+1246  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB
+1247  ~
+1248  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB
+1249  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,country=GB
+1250  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=impressions=3499
+1251  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,breakdown=a,b
+1252  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,values=a,b
+1253  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50&sort_by=revenue&sort_by=-impressions&country=GB&values=a,b
+1254  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,values=a,b
+1255  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,values=installs,values=impressions,values=date
+1256  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,values=installs,values=impressions,values=date,values=installs
+1257  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,values=installs,values=impressions,values=date,values=spend
+1258  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,values=installs,values=impressions,values=date,values=spend,date="2017-05-17"
+1259  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=date="2017-05-17"
+1260  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=date="2017-05-17" | more
+1261  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,values=installs,values=impressions,values=date,values=spend,date="2017-05-17"
+1262  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,values=installs,values=impressions,values=date
+1263  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,values=installs,values=impressions,values=date,values=spend,date="2017-05-17"
+1264  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,values=installs,values=impressions,values=date,values=spend,date="2017-05-22"
+1265  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=month=4
+1266  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=spend=50,sort_by=revenue,sort_by=-impressions,country=GB,values=installs,values=impressions,values=date,values=spend,date="2017-05-22"
+1267* curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=month=4 |
+1268  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=month=6
+1269  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=month=6|more
+1270  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=month=5 | more
+1271  curl -i -H 'Accept: application/json; indent=4' http://127.0.0.1:8000/api/?query=year=2017|more
+
