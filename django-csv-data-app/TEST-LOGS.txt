@@ -1,7 +1,6 @@
-
 -------------------- -------------------- -------------------- -------------------- --------------------
 
-Problem Statement:
+          *   Problem Statement:
 
 -------------------- -------------------- -------------------- -------------------- --------------------
 
@@ -19,23 +18,27 @@ Please make sure that the client can use filtering, grouping, sorting at the sam
 
 Common API use cases:
 
-Show the number of impressions and clicks that occurred before the 1st of June 2017, broken down by channel and country, sorted by clicks in descending order. Hint:
+1. Show the number of impressions and clicks that occurred before the 1st of June 2017, broken down by channel and country, sorted by clicks in descending order. Hint:
 => select channel, country, sum(impressions) as impressions, sum(clicks) as clicks from sampledataset where date <= '2017-06-01' group by channel, country order by clicks desc;
-     channel      | country | impressions | clicks 
+ channel      | country | impressions | clicks
 ------------------+---------+-------------+--------
- adcolony         | US      |      532608 |  13089
- apple_search_ads | US      |      369993 |  11457
- vungle           | GB      |      266470 |   9430
- vungle           | US      |      266976 |   7937
- ...
-Show the number of installs that occurred in April of 2017 on iOS, broken down by date, sorted by date in ascending order.
-Show money, earned on June 1, 2017 in US, broken down by operating system and sorted by revenue in descending order.
+adcolony         | US      |      532608 |  13089
+apple_search_ads | US      |      369993 |  11457
+vungle           | GB      |      266470 |   9430
+vungle           | US      |      266976 |   7937
+...
+
+2. Show the number of installs that occurred in April of 2017 on iOS, broken down by date, sorted by date in ascending order.
+
+3. Show money, earned on June 1, 2017 in US, broken down by operating system and sorted by revenue in descending order.
+
+*) BONUS
 As a bonus track, add CPI (cost per install) metric that is calculated as cpi = spend / installs. Use case: show CPI values for Canada (CA) broken down by channel ordered by CPI in descending order. Please think creafully which is an appropriate aggregate function for CPI.
 
 
 -------------------------------------------------------------------------------------
 
-    *   Outputs of requested multiple asks:
+*   Outputs of requested multiple asks:
 
 -------------------------------------------------------------------------------------
 
@@ -57,65 +60,65 @@ Strict-Transport-Security: max-age=31536000; includeSubdomains
 X-Frame-Options: SAMEORIGIN
 
 {
-    "count": 25,
-    "items": [
-        {
-            "country": "US",
-            "clicks": 13089,
-            "channel": "adcolony",
-            "impressions": 532608
-        },
-        {
-            "country": "US",
-            "clicks": 11457,
-            "channel": "apple_search_ads",
-            "impressions": 369993
-        },
-        {
-            "country": "GB",
-            "clicks": 9430,
-            "channel": "vungle",
-            "impressions": 266470
-        },
-        {
-            "country": "US",
-            "clicks": 7937,
-            "channel": "vungle",
-            "impressions": 266976
-        },
-        {
-            "country": "US",
-            "clicks": 7374,
-            "channel": "unityads",
-            "impressions": 215125
-        },
-        ...
-        ...
-        {
-            "country": "FR",
-            "clicks": 1551,
-            "channel": "facebook",
-            "impressions": 53164
-        },
-        {
-            "country": "CA",
-            "clicks": 1548,
-            "channel": "facebook",
-            "impressions": 53330
-        },
-        {
-            "country": "CA",
-            "clicks": 1547,
-            "channel": "google",
-            "impressions": 53064
-        },
-        {
-            "country": "DE",
-            "clicks": 503,
-            "channel": "google",
-            "impressions": 50653
-        }
-    ]
+"count": 25,
+"items": [
+    {
+        "country": "US",
+        "clicks": 13089,
+        "channel": "adcolony",
+        "impressions": 532608
+    },
+    {
+        "country": "US",
+        "clicks": 11457,
+        "channel": "apple_search_ads",
+        "impressions": 369993
+    },
+    {
+        "country": "GB",
+        "clicks": 9430,
+        "channel": "vungle",
+        "impressions": 266470
+    },
+    {
+        "country": "US",
+        "clicks": 7937,
+        "channel": "vungle",
+        "impressions": 266976
+    },
+    {
+        "country": "US",
+        "clicks": 7374,
+        "channel": "unityads",
+        "impressions": 215125
+    },
+    ...
+    ...
+    {
+        "country": "FR",
+        "clicks": 1551,
+        "channel": "facebook",
+        "impressions": 53164
+    },
+    {
+        "country": "CA",
+        "clicks": 1548,
+        "channel": "facebook",
+        "impressions": 53330
+    },
+    {
+        "country": "CA",
+        "clicks": 1547,
+        "channel": "google",
+        "impressions": 53064
+    },
+    {
+        "country": "DE",
+        "clicks": 503,
+        "channel": "google",
+        "impressions": 50653
+    }
+]
 }
 
 -------------------------------------------------------------------------------------
@@ -313,4 +316,3 @@ X-Frame-Options: SAMEORIGIN
 
 
 -------------------------------------------------------------------------------------
-
