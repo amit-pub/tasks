@@ -1,7 +1,7 @@
 
 -------------------- -------------------- -------------------- -------------------- --------------------
 
-          *   Problem Statement:
+# Problem Statement:
 
 -------------------- -------------------- -------------------- -------------------- --------------------
 
@@ -10,24 +10,27 @@ Expose the sample dataset through RESTful API which is capable of filtering, gro
 
 Sample dataset: https://gist.github.com/kusaku/01085f0ad72d2c74aff4577322b139a4
 
-Client of this API should be able to:
+#### Client of this API should be able to:
 
-filter by time range (date_from / date_to is enough), channels, countries, operating systems
-group by one or more columns: date, channel, country, operating system
-sort by any column in ascending or descending order
-Please make sure that the client can use filtering, grouping, sorting at the same time.
+* filter by time range (date_from / date_to is enough), channels, countries, operating systems
+* group by one or more columns: date, channel, country, operating system
+* sort by any column in ascending or descending order
 
-Common API use cases:
+> Please make sure that the client can use filtering, grouping, sorting at the same time.
+
+#### Common API use cases:
 
 Show the number of impressions and clicks that occurred before the 1st of June 2017, broken down by channel and country, sorted by clicks in descending order. Hint:
+```
 => select channel, country, sum(impressions) as impressions, sum(clicks) as clicks from sampledataset where date <= '2017-06-01' group by channel, country order by clicks desc;
-     channel      | country | impressions | clicks 
+ channel      | country | impressions | clicks
 ------------------+---------+-------------+--------
- adcolony         | US      |      532608 |  13089
- apple_search_ads | US      |      369993 |  11457
- vungle           | GB      |      266470 |   9430
- vungle           | US      |      266976 |   7937
- ...
+adcolony         | US      |      532608 |  13089
+apple_search_ads | US      |      369993 |  11457
+vungle           | GB      |      266470 |   9430
+vungle           | US      |      266976 |   7937
+...
+```
 Show the number of installs that occurred in April of 2017 on iOS, broken down by date, sorted by date in ascending order.
 Show money, earned on June 1, 2017 in US, broken down by operating system and sorted by revenue in descending order.
 As a bonus track, add CPI (cost per install) metric that is calculated as cpi = spend / installs. Use case: show CPI values for Canada (CA) broken down by channel ordered by CPI in descending order. Please think creafully which is an appropriate aggregate function for CPI.
@@ -35,7 +38,7 @@ As a bonus track, add CPI (cost per install) metric that is calculated as cpi = 
 
 -------------------------------------------------------------------------------------
 
-    *   Outputs of requested multiple asks:
+### Outputs of requested multiple asks:
 
 -------------------------------------------------------------------------------------
 
@@ -44,8 +47,9 @@ Ask #1 :   *Purpose*
 Show the number of impressions and clicks that occurred before the 1st of June 2017,
 broken down by channel and country, sorted by clicks in descending order.
 
+```
 
-# curl -i https://52.172.139.119/api/?query=date=lte:2017-6-1,values=channel,values=country,Sum=impressions,Sum=clicks,sort_by=-clicks -k
+# curl -i https://localhost/api/?query=date=lte:2017-6-1,values=channel,values=country,Sum=impressions,Sum=clicks,sort_by=-clicks -k
 HTTP/1.1 200 OK
 Server: nginx/1.10.3 (Ubuntu)
 Date: Sun, 28 Apr 2019 11:27:46 GMT
@@ -57,66 +61,67 @@ Strict-Transport-Security: max-age=31536000; includeSubdomains
 X-Frame-Options: SAMEORIGIN
 
 {
-    "count": 25,
-    "items": [
-        {
-            "country": "US",
-            "clicks": 13089,
-            "channel": "adcolony",
-            "impressions": 532608
-        },
-        {
-            "country": "US",
-            "clicks": 11457,
-            "channel": "apple_search_ads",
-            "impressions": 369993
-        },
-        {
-            "country": "GB",
-            "clicks": 9430,
-            "channel": "vungle",
-            "impressions": 266470
-        },
-        {
-            "country": "US",
-            "clicks": 7937,
-            "channel": "vungle",
-            "impressions": 266976
-        },
-        {
-            "country": "US",
-            "clicks": 7374,
-            "channel": "unityads",
-            "impressions": 215125
-        },
-        ...
-        ...
-        {
-            "country": "FR",
-            "clicks": 1551,
-            "channel": "facebook",
-            "impressions": 53164
-        },
-        {
-            "country": "CA",
-            "clicks": 1548,
-            "channel": "facebook",
-            "impressions": 53330
-        },
-        {
-            "country": "CA",
-            "clicks": 1547,
-            "channel": "google",
-            "impressions": 53064
-        },
-        {
-            "country": "DE",
-            "clicks": 503,
-            "channel": "google",
-            "impressions": 50653
-        }
-    ]
+"count": 25,
+"items": [
+    {
+        "country": "US",
+        "clicks": 13089,
+        "channel": "adcolony",
+        "impressions": 532608
+    },
+    {
+        "country": "US",
+        "clicks": 11457,
+        "channel": "apple_search_ads",
+        "impressions": 369993
+    },
+    {
+        "country": "GB",
+        "clicks": 9430,
+        "channel": "vungle",
+        "impressions": 266470
+    },
+    {
+        "country": "US",
+        "clicks": 7937,
+        "channel": "vungle",
+        "impressions": 266976
+    },
+    {
+        "country": "US",
+        "clicks": 7374,
+        "channel": "unityads",
+        "impressions": 215125
+    },
+    ...
+    ...
+    {
+        "country": "FR",
+        "clicks": 1551,
+        "channel": "facebook",
+        "impressions": 53164
+    },
+    {
+        "country": "CA",
+        "clicks": 1548,
+        "channel": "facebook",
+        "impressions": 53330
+    },
+    {
+        "country": "CA",
+        "clicks": 1547,
+        "channel": "google",
+        "impressions": 53064
+    },
+    {
+        "country": "DE",
+        "clicks": 503,
+        "channel": "google",
+        "impressions": 50653
+    }
+]
 }
+```
 
 -------------------------------------------------------------------------------------
 
@@ -126,7 +131,8 @@ Show the number of installs that occurred in April of 2017 on iOS,
 broken down by date, sorted by date in ascending order.
 
 
-# curl -i -k https://52.172.139.119/api/?query=year=2017,month=5,os=ios,values=date,Sum=installs,sort_by=date
+```
+# curl -i -k https://localhost/api/?query=year=2017,month=5,os=ios,values=date,Sum=installs,sort_by=date
 HTTP/1.1 200 OK
 Server: nginx/1.10.3 (Ubuntu)
 Date: Sun, 28 Apr 2019 11:26:38 GMT
@@ -172,7 +178,7 @@ X-Frame-Options: SAMEORIGIN
         }
     ]
 }
-
+```
 -------------------------------------------------------------------------------------
 
 Ask #3: *Purpose*
@@ -180,8 +186,8 @@ Ask #3: *Purpose*
 Show money, earned on June 1, 2017 in US, broken down by operating system,
 sorted by revenue in descending order.
 
-
-# curl -i -k https://52.172.139.119/api/?query=date=2017-6-1,country=US,values=os,Sum=revenue,sort_by=revenue
+```
+# curl -i -k https://localhost/api/?query=date=2017-6-1,country=US,values=os,Sum=revenue,sort_by=revenue
 HTTP/1.1 200 OK
 Server: nginx/1.10.3 (Ubuntu)
 Date: Sun, 28 Apr 2019 11:25:59 GMT
@@ -206,15 +212,17 @@ X-Frame-Options: SAMEORIGIN
     ]
 }
 
-
+```
 -------------------------------------------------------------------------------------
 
 
-Bonus track:
-# I've hardcoded all other params at the backend except Country (defaults to CA)
-#
+#### Bonus track:
 
-# curl -i -k https://52.172.139.119/cpi/
+> I've hardcoded all other params at the backend except Country (defaults to CA)
+
+```
+
+# curl -i -k https://localhost/cpi/
 HTTP/1.1 200 OK
 Server: nginx/1.10.3 (Ubuntu)
 Date: Sun, 28 Apr 2019 12:02:24 GMT
@@ -252,10 +260,12 @@ X-Frame-Options: SAMEORIGIN
     }
 ]
 
+```
 
-## Same query with another country:
+> Same query with another country (US) ->
 
-# curl -i -k https://52.172.139.119/cpi/?query=country=US
+```
+# curl -i -k https://localhost/cpi/?query=country=US
 HTTP/1.1 200 OK
 Server: nginx/1.10.3 (Ubuntu)
 Date: Sun, 28 Apr 2019 12:07:58 GMT
@@ -311,6 +321,6 @@ X-Frame-Options: SAMEORIGIN
     }
 ]
 
-
+```
 -------------------------------------------------------------------------------------
 
