@@ -45,7 +45,7 @@ Show the number of impressions and clicks that occurred before the 1st of June 2
 broken down by channel and country, sorted by clicks in descending order.
 
 
-# curl -i https://52.172.139.119/api/?query=date=lte:2017-6-1,values=channel,values=country,Sum=impressions,Sum=clicks,sort_by=-clicks -k
+# curl -i https://localhost/api/?query=date=lte:2017-6-1,values=channel,values=country,Sum=impressions,Sum=clicks,sort_by=-clicks -k
 HTTP/1.1 200 OK
 Server: nginx/1.10.3 (Ubuntu)
 Date: Sun, 28 Apr 2019 11:27:46 GMT
@@ -126,7 +126,7 @@ Show the number of installs that occurred in April of 2017 on iOS,
 broken down by date, sorted by date in ascending order.
 
 
-# curl -i -k https://52.172.139.119/api/?query=year=2017,month=5,os=ios,values=date,Sum=installs,sort_by=date
+# curl -i -k https://localhost/api/?query=year=2017,month=5,os=ios,values=date,Sum=installs,sort_by=date
 HTTP/1.1 200 OK
 Server: nginx/1.10.3 (Ubuntu)
 Date: Sun, 28 Apr 2019 11:26:38 GMT
@@ -181,7 +181,7 @@ Show money, earned on June 1, 2017 in US, broken down by operating system,
 sorted by revenue in descending order.
 
 
-# curl -i -k https://52.172.139.119/api/?query=date=2017-6-1,country=US,values=os,Sum=revenue,sort_by=revenue
+# curl -i -k https://localhost/api/?query=date=2017-6-1,country=US,values=os,Sum=revenue,sort_by=revenue
 HTTP/1.1 200 OK
 Server: nginx/1.10.3 (Ubuntu)
 Date: Sun, 28 Apr 2019 11:25:59 GMT
@@ -214,7 +214,7 @@ Bonus track:
 # I've hardcoded all other params at the backend except Country (defaults to CA)
 #
 
-# curl -i -k https://52.172.139.119/cpi/
+# curl -i -k https://localhost/cpi/
 HTTP/1.1 200 OK
 Server: nginx/1.10.3 (Ubuntu)
 Date: Sun, 28 Apr 2019 12:02:24 GMT
@@ -255,7 +255,7 @@ X-Frame-Options: SAMEORIGIN
 
 ## Same query with another country:
 
-# curl -i -k https://52.172.139.119/cpi/?query=country=US
+# curl -i -k https://localhost/cpi/?query=country=US
 HTTP/1.1 200 OK
 Server: nginx/1.10.3 (Ubuntu)
 Date: Sun, 28 Apr 2019 12:07:58 GMT
