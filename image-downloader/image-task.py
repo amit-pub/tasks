@@ -17,7 +17,7 @@ LOG_LEVEL = "INFO"
 ERROR_FILE = "error-report.json"
 
 
-class ImageTask():
+class ImageManager():
     """
     This class is basically is created for efficiently downloading and storing
      images from web, by using the image URLs, fed to this program by either
@@ -31,7 +31,6 @@ class ImageTask():
             distribution
         - creates output.log, error-report.json files as part of its execution
     """
-    
     def __init__(self, img_fpath):
         self.img_fpath = img_fpath
         self.pre_checks()
@@ -72,10 +71,9 @@ class ImageTask():
                                 IMG_DIR, e.message))
         if make_path and os.path.isfile(path):
             print("File '{}' already present".format(path))
-            #raise Exception("File '{}' already present".format(path))
-                
+
         return path
-        
+
     def store_image(self, imgurl):
         # Get the image nam by parsing the image url
         img_name = imgurl.split("/")[-1].strip()
@@ -99,7 +97,7 @@ class ImageTask():
                 response = requests.get(imgurl, stream=True)
                 if not response.ok:
                     raise Exception("Exception while fetching file from URL "
-                                    "'{}' : {}".format(imgurl, response.reason))
+                                    "'{}': {}".format(imgurl, response.reason))
 
                 for block in response.iter_content(IMG_READ_BLOCK):
                     if not block:
@@ -107,13 +105,14 @@ class ImageTask():
                     image.write(block)
             except Exception as e:
                 raise e
-        print("    <<< Thread({}) - Download completed '{}'".format(tid, img_name))
+        print("    <<< Thread({}) - Download completed '{}'".format(tid,
+                                                                    img_name))
 
     def download_from_imgfile(self):
-        futures_objs = {} # this maintains the future objets from pool
-        succ_count = 0 # count of success downloads
-        fail_count = 0 # count of failed downloads
-        total_errors = [] # to cache total errors while processing outputs
+        futures_objs = {}  # this maintains the future objets from pool
+        succ_count = 0  # count of success downloads
+        fail_count = 0  # count of failed downloads
+        total_errors = []  # to cache total errors while processing outputs
 
         with open(self.img_fpath, mode="r") as ifile:
             for line in ifile.readlines():
@@ -146,7 +145,7 @@ class ImageTask():
 
         util.print_line("Report Summary")
         # this is just a short of summary of download success/failure
-        print {"success": succ_count, "failure": fail_count}
+        print({"success": succ_count, "failure": fail_count})
 
         util.print_line("Logging errors to error-file")
 
@@ -198,12 +197,12 @@ if __name__ == "__main__":
 
     file_path = config["imagefile"] if config.get("imagefile") else sys.argv[1]
 
-    # create the ImageTask object and call methods, as to demonstrate
+    # create the ImageManager object and call methods, as to demonstrate
     # downloading & storing images AND
     # searching image files
-    I = ImageTask(file_path)
+    img_mgr = ImageManager(file_path)
     util.print_line("Downloading & Storing Images")
-    I.download_from_imgfile()
+    img_mgr.download_from_imgfile()
 
     util.print_line("Look up checks")
 
@@ -214,4 +213,4 @@ if __name__ == "__main__":
         "boat2.png"
     ]
     for img in search_imgs:
-        I.lookup_file(img)
+        img_mgr.lookup_file(img)
