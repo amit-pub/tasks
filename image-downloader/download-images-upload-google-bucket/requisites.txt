@@ -1,0 +1,5 @@
+pip install google-cloud-storage
+
+export GOOGLE_APPLICATION_CREDENTIALS=gcp.json
+
+References: https://cloud.google.com/storage/docs/uploading-objects
